@@ -8,9 +8,9 @@
 
 ## Overview
 
-In the previous lessons, we learned how to communicate between components by
-passing around handler functions, e.g. our popover had an `onClose` prop or
-an input might have an `onChange` prop.
+One way to communicate between components by is by passing around handler
+functions, e.g. a button usually has an `onClick` handler, while a custom modal
+component might accept an `onClose` function.
 
 While it's certainly possible to structure your component hierarchy using
 `on...` handlers, this approach is rather inflexible and leads to a lot of code
@@ -219,7 +219,20 @@ function toggleState (ctx, ev) {
 could also be written as
 
 ```js
-const toggleState => ctx => ev =>
+const toggleState = ctx => {
+  // actual event handler
+  return ev => {
+    ctx.setState({
+      enabled: !ctx.state.enabled
+    });
+  }
+}
+```
+
+or, if you want to keep it really concise:
+
+```js
+const toggleState = ctx => ev =>
   ctx.setState({
     enabled: !ctx.state.enabled
   });
