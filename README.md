@@ -168,9 +168,6 @@ unnecessary.
 
 Instead, we can extract out our handler into a separate "action".
 
-**Advanced:** Redux also uses actions. We're trying to slowly move towards such
-a Flux-like architecture. Hold on! We'll get there!
-
 An action is just a plain function that accepts a context (`ctx`) and arbitrary
 additional arguments (for instance the event itself in case we want to
 `.preventDefault()`):
@@ -274,4 +271,3 @@ enabled or disabled can be toggled by our `toggleState` function.
 ## Resources
 
 - [Flux: Actions](https://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html)
-- [Redux: Actions](http://redux.js.org/docs/basics/Actions.html)
