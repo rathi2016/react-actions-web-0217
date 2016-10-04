@@ -1,24 +1,22 @@
 # React Actions
 
+## Overview 
+
+In this lesson we look at how decoupling cetain functions into isolated `actions` allows us to de-couple handlers from the component they operate on.
+
 ## Objectives
 
 1. Explain how modularizing actions helps us modularize applications
 2. Describe the anatomy of a React action
-3. Practice moving from event handler to generic action
+3. Move from event handler to generic action
 
 ## Overview
 
-One way to communicate between components by is by passing around handler
-functions, e.g. a button usually has an `onClick` handler, while a custom modal
-component might accept an `onClose` function.
+One way to communicate between components by is by passing around handler functions, e.g. a button usually has an `onClick` handler, while a custom modal component might accept an `onClose` function.
 
-While it's certainly possible to structure your component hierarchy using
-`on...` handlers, this approach is rather inflexible and leads to a lot of code
-duplication in the long term.
+While it's certainly possible to structure your component hierarchy using `on...` handlers, this approach is rather inflexible  and leads to a lot of code duplication in the long term.
 
-In this lesson we're going to be learning how decoupling those functions into
-isolated `actions` allows us to de-couple handlers from the component they
-operate on.
+In this lesson we're going to be learning how decoupling those functions into isolated `actions` allows us to de-couple handlers from the component they operate on.
 
 ## Toggling State
 
@@ -37,8 +35,7 @@ Let's first have a look at a simple example: A toggle button.
 
 A toggle button can either be enabled or disabled.
 
-Using what we already learned about state, we could easily implement such a
-switch:
+Using what we already learned about state, we could easily implement such a switch:
 
 ```js
 class ToggleButton extends React.Component {
@@ -65,22 +62,17 @@ class ToggleButton extends React.Component {
 }
 ```
 
-Our component renders a button. If the toggle button is in the `enabled` state,
-we display the "Enabled" lable, otherwise we consider the button to be
-"Disabled".
+Our component renders a button. If the toggle button is in the `enabled` state, we display the "Enabled" lable, otherwise we consider the button to be "Disabled".
 
 ### Enabled / Disabled Inputs
 
-Not only toggle buttons can be toggled, but also checkboxes. A checkbox is
-either enabled or disabled.
+Not only toggle buttons can be toggled, but also checkboxes. A checkbox is either enabled or disabled.
 
-Implementing a form containing a checkbox (e.g. for one of those legal
-disclaimers) is trivial:
+Implementing a form containing a checkbox (e.g. for one of those legal disclaimers) is trivial:
 
 ![Order chocolate](./assets/order_chocolate.png)
 
-Similar to the toggle button above, the checkbox would have an enabled and
-disabled state.
+Similar to the toggle button above, the checkbox would have an enabled and disabled state.
 
 ```js
 class ChocolateDisclaimer extends React.Component {
@@ -111,23 +103,17 @@ class ChocolateDisclaimer extends React.Component {
 }
 ```
 
-As we can see, this component looks fairly similar to the toggle button above.
-The only real difference is that instead of a toggle "button", we now have an
-input of type `checkbox`. Other than that, everything remains the same.
+As we can see, this component looks fairly similar to the toggle button above. The only real difference is that instead of a toggle "button", we now have an input of type `checkbox`. Other than that, everything remains the same.
 
-Wouldn't it be nice if we could de-duplicate this logic and extract out the
-redundant `handleClick` handler?
+Wouldn't it be nice if we could de-duplicate this logic and extract out the redundant `handleClick` handler?
 
 ### Modularizing actions
 
-If we look at the code of the toggle button and chocolate disclaimer, we notice
-that the click handlers are completely **identical**.
+If we look at the code of the toggle button and chocolate disclaimer, we notice that the click handlers are completely **identical**.
 
-Code redundancy is never a good thing, therefore we should try to extract out
-our `handleClick` function.
+Code redundancy is never a good thing, therefore we should try to extract out our `handleClick` function.
 
-One way would be to have a super-class `Toggleable` that both
-`ChocolateDisclaimer` and `ToggleButton` inherit from:
+One way would be to have a super-class `Toggleable` that both `ChocolateDisclaimer` and `ToggleButton` inherit from:
 
 ```js
 class Toggleable extends React.Component {
@@ -160,16 +146,11 @@ class ToggleButton extends Toggleable {
 }
 ```
 
-This is already a bit better, but becomes quickly unmanageable. A component
-might for instance be `Toggleable` and `Submittable`… which becomes a bit messy
-very quickly. JavaScript doesn't support multiple-inheritance (inheriting from
-more than one class at once) and building our own mixin system is a bit
-unnecessary.
+This is already a bit better, but becomes quickly unmanageable. A component might for instance be `Toggleable` and `Submittable`… which becomes a bit messy very quickly. JavaScript doesn't support multiple-inheritance (inheriting from more than one class at once) and building our own mixin system is a bit unnecessary.
 
 Instead, we can extract out our handler into a separate "action".
 
-An action is just a plain function that accepts a context (`ctx`) and arbitrary
-additional arguments (for instance the event itself in case we want to
+An action is just a plain function that accepts a context (`ctx`) and arbitrary additional arguments (for instance the event itself in case we want to
 `.preventDefault()`):
 
 ```js
@@ -182,11 +163,9 @@ function toggleState (ctx, ev) {
 
 `ctx` is the `this` context of the component that the action is "bound" to.
 
-The above action could be used in the `ToggleButton` as well as the
-`ChocolateDisclaimer`.
+The above action could be used in the `ToggleButton` as well as the `ChocolateDisclaimer`.
 
-In both cases, the context would be `this`. The action would be bound inside the
-component's constructor function:
+In both cases, the context would be `this`. The action would be bound inside the component's constructor function:
 
 ```js
 class ToggleButton extends React.Component {
@@ -201,9 +180,7 @@ class ToggleButton extends React.Component {
 }
 ```
 
-Instead of using an arrow function, we could also "curry" the `toggleState`
-function. Currying a functions means converting a function that accepts multiple
-arguments into a function that accepts one argument at a time:
+Instead of using an arrow function, we could also "curry" the `toggleState` function. Currying a functions means converting a function that accepts multiple arguments into a function that accepts one argument at a time:
 
 ```js
 function toggleState (ctx, ev) {
@@ -235,8 +212,7 @@ const toggleState = ctx => ev =>
   });
 ```
 
-This has the advantage that we no longer need to wrap our `toggleState` function
-inside the component's constructor:
+This has the advantage that we no longer need to wrap our `toggleState` function inside the component's constructor:
 
 ```js
 class ToggleButton extends React.Component {
@@ -260,11 +236,7 @@ class ToggleButton extends React.Component {
 }
 ```
 
-And that's it! Now we modularized our `toggleState` handler! Instead of
-duplicating our `handleClick` handler, we can now apply the `toggleState`
-function to anything that can be toggled or turned on / off. It doesn't matter
-if it's a button, "Collapse"-button, input or lightsaber. Everything that can be
-enabled or disabled can be toggled by our `toggleState` function.
+And that's it! Now we modularized our `toggleState` handler! Instead of duplicating our `handleClick` handler, we can now apply the `toggleState` function to anything that can be toggled or turned on / off. It doesn't matter if it's a button, "Collapse"-button, input or lightsaber. Everything that can be enabled or disabled can be toggled by our `toggleState` function.
 
 ![Mind blown](http://i.giphy.com/EldfH1VJdbrwY.gif)
 
