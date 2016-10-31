@@ -2,7 +2,7 @@
 
 ## Overview 
 
-In this lesson we look at how decoupling cetain functions into isolated `actions` allows us to de-couple handlers from the component they operate on.
+In this lesson we look at how decoupling certain functions into isolated `actions` allows us to de-couple handlers from the component they operate on.
 
 ## Objectives
 
@@ -31,7 +31,7 @@ A lot of components have two states:
 
 Let's first have a look at a simple example: A toggle button.
 
-![Toggle Button States](./assets/toggle_buttons.png)
+![Toggle Button States](https://s3.amazonaws.com/learn-verified/react-actions-readme-toggle_buttons.png)
 
 A toggle button can either be enabled or disabled.
 
@@ -70,7 +70,7 @@ Not only toggle buttons can be toggled, but also checkboxes can be. A checkbox i
 
 Implementing a form containing a checkbox (e.g. for one of those legal disclaimers) is trivial:
 
-![Order chocolate](./assets/order_chocolate.png)
+![Order chocolate](https://s3.amazonaws.com/learn-verified/react-actions-readme-order_chocolate.png)
 
 Similar to the toggle button above, the checkbox would have an enabled and disabled state.
 
@@ -243,5 +243,3 @@ And that's it! Now we modularized our `toggleState` handler! Instead of duplicat
 ## Resources
 
 - [Flux: Actions](https://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html)
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/react-actions'>React Actions</a> on Learn.co and start learning to code for free.</p>
