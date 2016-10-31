@@ -12,9 +12,9 @@ In this lesson we look at how decoupling cetain functions into isolated `actions
 
 ## Overview
 
-One way to communicate between components by is by passing around handler functions, e.g. a button usually has an `onClick` handler, while a custom modal component might accept an `onClose` function.
+One way to communicate between components is by passing around handler functions, e.g. a button usually has an `onClick` handler, while a custom modal component might accept an `onClose` function.
 
-While it's certainly possible to structure your component hierarchy using `on...` handlers, this approach is rather inflexible  and leads to a lot of code duplication in the long term.
+While it's certainly possible to structure your component hierarchy using `on...` handlers, this approach is rather inflexible and leads to a lot of code duplication in the long term.
 
 In this lesson we're going to be learning how decoupling those functions into isolated `actions` allows us to de-couple handlers from the component they operate on.
 
@@ -25,7 +25,7 @@ A lot of components have two states:
 - a toggle button for instance is either "on" or "off"
 - an input field can be enabled or disabled
 - a checkbox can either be ticked or unticked
-- a log paragraph of text could either be collapsed or expanded
+- a long paragraph of text could either be collapsed or expanded
 
 ### Toggle Button
 
@@ -62,11 +62,11 @@ class ToggleButton extends React.Component {
 }
 ```
 
-Our component renders a button. If the toggle button is in the `enabled` state, we display the "Enabled" lable, otherwise we consider the button to be "Disabled".
+Our component renders a button. If the toggle button is in the `enabled` state, we display the "Enabled" label, otherwise we consider the button to be "Disabled".
 
 ### Enabled / Disabled Inputs
 
-Not only toggle buttons can be toggled, but also checkboxes. A checkbox is either enabled or disabled.
+Not only toggle buttons can be toggled, but also checkboxes can be. A checkbox is either enabled or disabled.
 
 Implementing a form containing a checkbox (e.g. for one of those legal disclaimers) is trivial:
 
@@ -111,7 +111,7 @@ Wouldn't it be nice if we could de-duplicate this logic and extract out the redu
 
 If we look at the code of the toggle button and chocolate disclaimer, we notice that the click handlers are completely **identical**.
 
-Code redundancy is never a good thing, therefore we should try to extract out our `handleClick` function.
+Code redundancy is never a good thing; therefore we should try to extract out our `handleClick` function.
 
 One way would be to have a super-class `Toggleable` that both `ChocolateDisclaimer` and `ToggleButton` inherit from:
 
@@ -243,3 +243,5 @@ And that's it! Now we modularized our `toggleState` handler! Instead of duplicat
 ## Resources
 
 - [Flux: Actions](https://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html)
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/react-actions'>React Actions</a> on Learn.co and start learning to code for free.</p>
